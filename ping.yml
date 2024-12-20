@@ -1,6 +1,8 @@
 ---
 - name: My first play  #format sensible
   hosts: host 
+  become: yes
+  become_user: root
   tasks:
    - name: Ping my hosts
      ansible.builtin.ping:
