@@ -4,18 +4,19 @@
   gather_facts: no
   tasks:
     - name: Ensure AWS CLI is in PATH
+      shell: aws --version
       environment:
-        PATH: "{{ ansible_env.PATH }}:/ust/local/bin/aws"
+        PATH: "{{ ansible_env.PATH }}:/usr/local/bin"
+
     - name: Inject SSH public key via AWS SSM
       ansible.builtin.shell: |
         aws ssm send-command \
           --document-name "AWS-RunShellScript" \
-          --targets "Key=tag:AllowAccess,Values=true" \   #Change based on tag you specified
+          --targets "Key=tag:AllowAccess,Values=true" \
           --parameters '{"commands":["/bin/echo -e \"ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDt7t1vYaxPUIyyhUf2gEtiMxNJii+D2CvorvokdQinS ec2-user@ip-172-31-30-194.ec2.internal\" >> /home/ec2-user/.ssh/authorized_keys"]}' \
-          --region us-east-1  #Change your Region
+          --region us-east-1
       register: ssm_result
+
     - name: Display the SSM command result
       debug:
         var: ssm_result
-
-
