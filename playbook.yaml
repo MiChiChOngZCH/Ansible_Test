@@ -3,11 +3,6 @@
   hosts: localhost
   gather_facts: no
   tasks:
-    - name: Ensure AWS CLI is in PATH
-      shell: aws --version
-      environment:
-        PATH: "{{ ansible_env.PATH }}:/usr/local/bin"
-
     - name: Inject SSH public key via AWS SSM
       ansible.builtin.shell: |
         aws ssm send-command \
