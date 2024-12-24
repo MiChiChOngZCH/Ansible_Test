@@ -1,12 +1,7 @@
----
-- name: Play Ping
-  hosts: host
-  become: true
+- hosts: all
+  gather_facts: no
+  connection: local
   tasks:
-   - name: Ping my hosts
-     ansible.builtin.ping:
-
-   - name: Print message
-     ansible.builtin.debug:
-       msg: Ping all good!
-
+    - name: Ping the server
+      command: ping -c 1 {{ host }}
+      ignore_errors: yes
