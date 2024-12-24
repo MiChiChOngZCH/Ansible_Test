@@ -1,22 +1,8 @@
 ---
 - hosts: all
-  become: true  # Ensures commands are run with elevated privileges
+  become: true  # Run tasks as root
   tasks:
-    - name: Update the package list
-      ansible.builtin.yum:
-        name: "*"
-        state: latest
-      when: ansible_distribution == "Amazon"  # For Amazon Linux
-
-    - name: Install Apache (httpd) on Amazon Linux
+    - name: Install Apache
       ansible.builtin.yum:
         name: httpd
         state: present
-      when: ansible_distribution == "Amazon"
-
-    - name: Ensure Apache is started and enabled
-      ansible.builtin.service:
-        name: httpd
-        state: started
-        enabled: true
-      when: ansible_distribution == "Amazon"
