@@ -3,5 +3,5 @@
   connection: local
   tasks:
     - name: Ping the server
-      command: ping -c 1 {{ host }}
+      command: ping -c 1 {{ inventory_hostname }}
       ignore_errors: yes
