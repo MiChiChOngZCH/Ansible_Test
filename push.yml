@@ -1,7 +1,7 @@
 ---
 - name: Add SSH public key using Shell
   hosts: local
-  become: true
+#  become: true
   gather_facts: no
   tasks:
     - name: Inject SSH public key via AWS SSM
