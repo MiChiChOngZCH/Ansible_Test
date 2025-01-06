@@ -9,7 +9,7 @@
         aws ssm send-command \
           --document-name "AWS-RunShellScript" \
           --targets "Key=tag:AllowAccess,Values=true" \   #Change based on tag you specified
-          --parameters '{"commands":["/bin/echo -e \"ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINrA0LONowNgTNU3M49o/0jmLbdJdf6k4t+uzDk+GIRQ ec2-user@ip-172-31-34-95.ec2.internal\" >> /home/ec2-user/.ssh/authorized_keys"]}' \
+          --parameters '{"commands":["/bin/echo -e \"ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC5Q8+u6v/JmpZtebsKfjCTI7yy5JiSOh5tqmu99jRVtLKFa2E873zqUlURUIN+OIpa4ff86+bBKLdG3YlL49mXh28Txlt9cfuQqrkQPZen7r+yp49n5ymuKArDsYh1QzI1ffc/iKzV6eW3eUdPzN9I0OXl+KsA9sjYSR9oOKTJYwi/YzMIqs14RqjlgB3xwNA0gaxYjjSFTgekYltdzt4IeIObV1C0CnjgSM3t5KJEyWBR1KGtoGDtSyW60rRbfv2OlX1esoeFRLGuK4H9u5jyMlfGpSIBqya5EOhkfQDsTdELoccAdm+g8rxo+NzQHJKu5ArghghF/io2Mxf5YXO4fK4MlPDCAgV69cT58K0JIzXZ9AAplvKh2NC7bi8wshnwaCA8I86hpkXB5WZSCZWJwg2BWeDajTj2UbDNIb0K1qji+ga/xqrmnBSeHMv7ww641dgFAmmhXSZuDw0J2l/L2V67vyUhoUlYoBRvN6CTTxBoKyTGqLscK7B+LOBFTlc= semaphore@ip-172-31-34-95.ec2.internal\" >> /home/ec2-user/.ssh/authorized_keys"]}' \
           --region us-east-1  
       register: ssm_result
     - name: Display the SSM command result
