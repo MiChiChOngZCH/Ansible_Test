@@ -1,0 +1,33 @@
+---
+- name: Add public keys to authorized_keys
+  hosts: local
+  become: true
+  gather_facts: no
+  vars:
+    public_keys_file: "/home/semaphore/keys.txt"  # Path to the file containing public keys
+    target_tag_key: "tag:AllowAccess"            # Tag key for AWS SSM
+    target_tag_value: "true"                    # Tag value for AWS SSM
+    region: "us-east-1"                         # AWS region
+
+  tasks:
+    - name: Read public keys from file
+      ansible.builtin.slurp:
+        src: "{{ public_keys_file }}"
+      register: public_keys_content
+
+    - name: Prepare the public keys
+      ansible.builtin.set_fact:
+        public_keys_list: "{{ public_keys_content['content'] | b64decode | splitlines() }}"
+
+    - name: Inject public keys via AWS SSM
+      ansible.builtin.shell: |
+        aws ssm send-command \
+          --document-name "AWS-RunShellScript" \
+          --targets "Key={{ target_tag_key }},Values={{ target_tag_value }}" \
+          --parameters '{"commands":["/bin/echo -e {{ public_keys_list | join('\"\\n\"') }} >> /home/ec2-user/.ssh/authorized_keys"]}' \
+          --region {{ region }}
+      register: ssm_result
+
+    - name: Display the SSM command result
+      debug:
+        var: ssm_result
