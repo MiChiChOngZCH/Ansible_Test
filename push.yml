@@ -9,7 +9,7 @@
         aws ssm send-command \
           --document-name "AWS-RunShellScript" \
           --targets "Key=tag:AllowAccess,Values=true" \  
-          --parameters '{"commands":["/bin/echo -e \"ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOa/N6TzHxveWkibzglVT13/tbyhWlZbso2Gy3IbzJah semaphore@ip-172-31-34-95.ec2.internal\" >> /home/ec2-user/.ssh/authorized_keys"]}' \
+          --parameters '{"commands":["/bin/echo -e \"ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP9RDbcwxWls1oJsicyYYoZulaeUm1AZ+krAb+IdFE3v ec2-user@ip-172-31-30-194.ec2.internal\" >> /home/ec2-user/.ssh/authorized_keys"]}' \
           --region us-east-1  
       register: ssm_result
     - name: Display the SSM command result
