@@ -24,7 +24,7 @@
         aws ssm send-command \
           --document-name "AWS-RunShellScript" \
           --targets "Key={{ target_tag_key }},Values={{ target_tag_value }}" \
-          --parameters '{"commands":["/bin/echo -e {{ public_keys_list | join('\"\\n\"') }} >> /home/ec2-user/.ssh/authorized_keys"]}' \
+          --parameters '{"commands":["{% for key in public_keys_list if key != '' %}if ! grep -q \"{{ key }}\" /home/ec2-user/.ssh/authorized_keys; then echo \"{{ key }}\" >> /home/ec2-user/.ssh/authorized_keys; fi; {% endfor %}"]}' \
           --region {{ region }}
       register: ssm_result
 
